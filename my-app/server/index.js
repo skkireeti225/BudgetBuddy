@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const fs = require('fs').promises;
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
@@ -16,56 +16,55 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Connect to MongoDB if provided; otherwise use an in-memory store
-let useInMemory = false;
-let Item;
-const inMemoryItems = [];
+// Use a simple file-backed JSON store so Hostinger doesn't need MongoDB
+const DATA_DIR = path.join(__dirname, 'data');
+const DATA_FILE = path.join(DATA_DIR, 'items.json');
 
-if (process.env.MONGO_URI) {
-  mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("MongoDB Connected"))
-    .catch(err => {
-      console.log('Mongo connection error:', err);
-      console.log('Falling back to in-memory store');
-      useInMemory = true;
-    });
-
-  // Simple Schema (only if using mongoose)
-  const ItemSchema = new mongoose.Schema({ name: String });
-  Item = mongoose.model('Item', ItemSchema);
-} else {
-  console.log('No MONGO_URI provided — using in-memory store');
-  useInMemory = true;
+async function ensureDataFile() {
+  try {
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    try {
+      await fs.access(DATA_FILE);
+    } catch (e) {
+      await fs.writeFile(DATA_FILE, '[]', 'utf8');
+    }
+  } catch (err) {
+    console.error('Failed to ensure data file:', err);
+  }
 }
+
+async function readItems() {
+  try {
+    const raw = await fs.readFile(DATA_FILE, 'utf8');
+    return JSON.parse(raw || '[]');
+  } catch (err) {
+    console.error('readItems error:', err);
+    return [];
+  }
+}
+
+async function writeItems(items) {
+  try {
+    await fs.writeFile(DATA_FILE, JSON.stringify(items, null, 2), 'utf8');
+  } catch (err) {
+    console.error('writeItems error:', err);
+  }
+}
+
+ensureDataFile();
 
 // Routes
 app.get('/items', async (req, res) => {
-  if (useInMemory) {
-    return res.json(inMemoryItems);
-  }
-
-  try {
-    const items = await Item.find();
-    res.json(items);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch items' });
-  }
+  const items = await readItems();
+  res.json(items);
 });
 
 app.post('/items', async (req, res) => {
-  if (useInMemory) {
-    const newItem = { _id: Date.now().toString(), ...req.body };
-    inMemoryItems.push(newItem);
-    return res.json(newItem);
-  }
-
-  try {
-    const newItem = new Item(req.body);
-    await newItem.save();
-    res.json(newItem);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to create item' });
-  }
+  const items = await readItems();
+  const newItem = { id: Date.now().toString(), ...req.body };
+  items.push(newItem);
+  await writeItems(items);
+  res.json(newItem);
 });
 
 const PORT = process.env.PORT || 5000;
