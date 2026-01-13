@@ -2,10 +2,16 @@
   "name": "budgetbuddy",
   "version": "0.1.0",
   "private": true,
+  "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "postinstall": "cd server && npm install --no-audit --no-fund",
-    "build": "cd server && npm run postinstall && cd ../client && npm run build"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "postinstall": "cd client && npm install --no-audit --no-fund && npm run build",
+    "build": "npm run postinstall"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
   },
   "engines": {
     "node": ">=18"

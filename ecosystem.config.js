@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'budgetbuddy',
-      script: 'server/index.js',
+      script: 'index.js',
       instances: 1,
       exec_mode: 'cluster',
       env: {
