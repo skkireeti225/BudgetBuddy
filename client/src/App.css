@@ -7,6 +7,7 @@ body {
   padding-top: 4rem;
   /* ensure page content clears the fixed footer */
   padding-bottom: 5rem;
+
 }
 .app {
   max-width: 720px;
@@ -110,5 +111,4 @@ body {
 .site-footer .icon.linkedin { background: #0077b5 }
 .site-footer .icon.mail { background: #e64b4b }
 .site-footer .icon svg { display: block }
-
-
+}
