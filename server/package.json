@@ -1,22 +1,17 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
+  "name": "budgetbuddy-server",
+  "version": "0.1.0",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js",
+    "postinstall": "cd ../client && npm install --no-audit --no-fund && npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "engines": {
-    "node": "18.x"
+    "node": ">=18"
   },
-  "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "express": "^4.18.2"
   }
 }

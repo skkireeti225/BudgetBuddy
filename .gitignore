@@ -1,27 +1,30 @@
-# Dependencies
+# Node
 node_modules/
-dist/
-build/
 
-# Environment Variables (SENSITIVE)
+# Server & client node_modules
+server/node_modules/
+client/node_modules/
+
+# Client build
+client/dist/
+dist/
+
+# Environment files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-logs/
 *.log
 
-# Editor/System Files
+# OS files
+.DS_Store
+
+# IDEs / editors
 .vscode/
 .idea/
-.DS_Store
-Thumbs.db
 
-# Testing
+# Coverage
 coverage/

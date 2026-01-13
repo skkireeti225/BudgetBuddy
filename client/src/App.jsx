@@ -1,32 +1,20 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
-function App() {
-  const [items, setItems] = useState([]);
-  const [input, setInput] = useState('');
+export default function App() {
+  const [msg, setMsg] = useState('Loading...')
 
-  // Fetch data from Backend
   useEffect(() => {
-    axios.get('http://localhost:5000/items')
-      .then(res => setItems(res.data));
-  }, []);
-
-  const addItem = async () => {
-    const res = await axios.post('http://localhost:5000/items', { name: input });
-    setItems([...items, res.data]);
-    setInput('');
-  };
+    fetch('/api/hello')
+      .then((r) => r.json())
+      .then((d) => setMsg(d.message))
+      .catch(() => setMsg('Could not reach API'))
+  }, [])
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Task List</h1>
-      <input value={input} onChange={(e) => setInput(e.target.value)} />
-      <button onClick={addItem}>Add Task</button>
-      <ul>
-        {items.map(item => <li key={item._id}>{item.name}</li>)}
-      </ul>
+    <div className="app">
+      <h1>BudgetBuddy</h1>
+      <p>{msg}</p>
+      <p>Edit the client in <strong>client/src</strong> and the server in <strong>server</strong>.</p>
     </div>
-  );
+  )
 }
-
-export default App;

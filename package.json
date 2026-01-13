@@ -1,0 +1,13 @@
+{
+  "name": "budgetbuddy",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node server/index.js",
+    "postinstall": "cd server && npm install --no-audit --no-fund",
+    "build": "cd server && npm run postinstall && cd ../client && npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
