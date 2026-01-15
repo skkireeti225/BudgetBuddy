@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { Link, Routes, Route } from 'react-router-dom'
+import CarEMI from './pages/CarEMI'
 
 export default function App() {
   const [msg, setMsg] = useState('Loading...')
@@ -15,22 +17,30 @@ export default function App() {
     <div className="app">
       <header className="site-header">
         <div className="header-inner">
-          <div className="brand">WebSiteName</div>
+          <div className="brand">Fin Planner</div>
           <nav className="main-nav" aria-label="Main navigation">
             <ul>
-              <li className="active">Home</li>
-              <li>Page 1</li>
-              <li>Page 2</li>
-              <li>Page 3</li>
+              <li className="active"><Link to="/">Home</Link></li>
+              <li><Link to="/car-emi">Car EMI</Link></li>
+              <li><Link to="/page-2">Page 2</Link></li>
+              <li><Link to="/page-3">Page 3</Link></li>
             </ul>
           </nav>
         </div>
       </header>
-
       <main className="content">
-        <h1>BudgetBuddy</h1>
-        <p>{msg}</p>
-        <p>Edit the client in <strong>client/src</strong> and the server in <strong>server</strong>.</p>
+        <Routes>
+          <Route path="/" element={
+            <div>
+              <h1>BudgetBuddy</h1>
+              <p>{msg}</p>
+              <p>Edit the client in <strong>client/src</strong> and the server in <strong>server</strong>.</p>
+            </div>
+          } />
+          <Route path="/car-emi" element={<CarEMI />} />
+          <Route path="/page-2" element={<div><h2>Page 2</h2></div>} />
+          <Route path="/page-3" element={<div><h2>Page 3</h2></div>} />
+        </Routes>
       </main>
     </div>
 
