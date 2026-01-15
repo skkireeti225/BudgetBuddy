@@ -65,10 +65,12 @@ export default function CarEMI() {
     const totalCost = toNumber(P0) + totalInterest + taxAmount + fees
 
     setResult({ financed, taxAmount, monthly, totalPayments, totalInterest, upfrontPayment, totalCost })
+    if (monthly !== null) setMonthlyPay(monthly.toFixed(2))
   }
 
   // derive vehicle price from desired monthly payment (auto price)
   function derivePriceFromMonthly(M) {
+    setResult(null)
     const monthly = toNumber(M)
     const annual = toNumber(rate)
     const n = parseInt(tenure, 10) || 0
@@ -110,7 +112,14 @@ export default function CarEMI() {
                 <div className="mb-2 row">
                   <label className="col-6 col-form-label">Auto Price</label>
                   <div className="col-6">
-                    <input className="form-control" type="number" value={monthlyPay} onChange={e => { setMonthlyPay(e.target.value); derivePriceFromMonthly(e.target.value); }} placeholder="e.g. 30000" />
+                    <input className="form-control" type="number" step="0.01" value={vehiclePrice} onChange={e => setVehiclePrice(e.target.value)} placeholder="e.g. 30000" />
+                  </div>
+                </div>
+
+                <div className="mb-2 row">
+                  <label className="col-6 col-form-label">Target Monthly Payment</label>
+                  <div className="col-6">
+                    <input className="form-control" type="number" step="0.01" value={monthlyPay} onChange={e => { setMonthlyPay(e.target.value); derivePriceFromMonthly(e.target.value); }} placeholder="e.g. 400" />
                   </div>
                 </div>
 
@@ -131,14 +140,14 @@ export default function CarEMI() {
                   <div className="mb-2 row">
                     <label className="col-6 col-form-label">Cash Incentives</label>
                     <div className="col-6">
-                      <input className="form-control" type="number" value={cashIncentives} onChange={e => setCashIncentives(e.target.value)} />
+                      <input className="form-control" type="number" step="0.01" value={cashIncentives} onChange={e => setCashIncentives(e.target.value)} />
                     </div>
                   </div>
 
                 <div className="mb-2 row">
                   <label className="col-6 col-form-label">Down Payment</label>
                   <div className="col-6">
-                    <input className="form-control" type="number" value={downPayment} onChange={e => setDownPayment(e.target.value)} />
+                    <input className="form-control" type="number" step="0.01" value={downPayment} onChange={e => setDownPayment(e.target.value)} />
                   </div>
                 </div>
 
@@ -156,7 +165,7 @@ export default function CarEMI() {
                 <div className="mb-2 row">
                   <label className="col-6 col-form-label">Title, Registration and Other Fees</label>
                   <div className="col-6">
-                    <input className="form-control" type="number" value={otherFees} onChange={e => setOtherFees(e.target.value)} />
+                    <input className="form-control" type="number" step="0.01" value={otherFees} onChange={e => setOtherFees(e.target.value)} />
                   </div>
                 </div>
 
@@ -173,14 +182,14 @@ export default function CarEMI() {
                     <div className="mb-2 row">
                       <label className="col-6 col-form-label">Trade-in Value</label>
                       <div className="col-6">
-                        <input className="form-control" type="number" value={tradeInValue} onChange={e => setTradeInValue(e.target.value)} />
+                        <input className="form-control" type="number" step="0.01" value={tradeInValue} onChange={e => setTradeInValue(e.target.value)} />
                       </div>
                     </div>
 
                     <div className="mb-2 row">
                       <label className="col-6 col-form-label">Amount Owed on Trade-in</label>
                       <div className="col-6">
-                        <input className="form-control" type="number" value={amountOwedOnTradeIn} onChange={e => setAmountOwedOnTradeIn(e.target.value)} />
+                        <input className="form-control" type="number" step="0.01" value={amountOwedOnTradeIn} onChange={e => setAmountOwedOnTradeIn(e.target.value)} />
                       </div>
                     </div>
                   </>
