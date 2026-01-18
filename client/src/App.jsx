@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Routes, Route } from 'react-router-dom'
+import About from './pages/About'
 
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
           <nav className="main-nav" aria-label="Main navigation">
             <ul>
               <li className="active"><Link to="/">Home</Link></li>
-              
+              <li><Link to="/about">About</Link></li>
               <li><Link to="/page-2">Page 2</Link></li>
               <li><Link to="/page-3">Page 3</Link></li>
             </ul>
@@ -38,6 +39,7 @@ export default function App() {
             </div>
           } />
           
+          <Route path="/about" element={<About />} />
           <Route path="/page-2" element={<div><h2>Page 2</h2></div>} />
           <Route path="/page-3" element={<div><h2>Page 3</h2></div>} />
         </Routes>
