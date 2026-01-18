@@ -28,7 +28,7 @@ body {
   z-index: 1000;
   padding: 0.25rem 0; /* reduced header vertical padding */
   border-radius: 0;
-  background: linear-gradient(90deg,#2b2b2b 0%, #222 100%);
+  background: #6776a4;
   box-shadow: 0 6px 18px rgba(0,0,0,0.18);
 }
 .site-header .header-inner {
@@ -40,7 +40,7 @@ body {
   margin: 0 auto;
 }
 .brand {
-  color: #9a9a9a;
+  color: #ffffff;
   font-weight: 600;
   font-size: 1rem; /* smaller brand */
   padding: 0.35rem 0.6rem;
@@ -83,7 +83,7 @@ body {
   right: 0;
   bottom: 0;
   width: 100%;
-  background: #000;
+  background: #6776a4;
   color: #fff;
   padding: 0.6rem 0; /* reduced height */
   z-index: 900;
@@ -112,4 +112,3 @@ body {
 .site-footer .icon.linkedin { background: #0077b5 }
 .site-footer .icon.mail { background: #e64b4b }
 .site-footer .icon svg { display: block }
-}
