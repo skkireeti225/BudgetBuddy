@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 export default function CarEMI() {
   const [vehiclePrice, setVehiclePrice] = useState('')
-  const [monthlyPay, setMonthlyPay] = useState('')
   const [rate, setRate] = useState('')
   const [tenure, setTenure] = useState('')
   const [cashIncentives, setCashIncentives] = useState('0')
@@ -65,40 +64,6 @@ export default function CarEMI() {
     const totalCost = toNumber(P0) + totalInterest + taxAmount + fees
 
     setResult({ financed, taxAmount, monthly, totalPayments, totalInterest, upfrontPayment, totalCost })
-    if (monthly !== null) setMonthlyPay(monthly.toFixed(2))
-  }
-
-  // derive vehicle price from desired monthly payment (auto price)
-  function derivePriceFromMonthly(M) {
-    setResult(null)
-    const monthly = toNumber(M)
-    const annual = toNumber(rate)
-    const n = parseInt(tenure, 10) || 0
-    if (monthly <= 0 || n <= 0) return
-
-    const r = annual / 100 / 12
-    let financed = 0
-    if (r > 0) {
-      const x = Math.pow(1 + r, n)
-      financed = monthly * (x - 1) / (r * x)
-    } else {
-      financed = monthly * n
-    }
-
-    // reverse engineer vehicle price P0 from financed value
-    const cash = toNumber(cashIncentives)
-    const down = toNumber(downPayment)
-    const trade = hasTradeIn ? toNumber(tradeInValue) : 0
-    const owed = hasTradeIn ? toNumber(amountOwedOnTradeIn) : 0
-    const fees = toNumber(otherFees)
-    const taxPct = toNumber(salesTax) / 100
-    const tf = includeFeesInLoan ? taxPct : 0
-
-    // financed = P0*(1+tf) - cash - down - trade + owed - (tf*cash) + (includeFees?fees:0)
-    const numerator = financed + cash + down + trade - owed + (tf * cash) - (includeFeesInLoan ? fees : 0)
-    const denom = 1 + tf
-    const P0 = denom !== 0 ? numerator / denom : 0
-    if (P0 > 0) setVehiclePrice(P0.toFixed(2))
   }
 
   return (
@@ -113,13 +78,6 @@ export default function CarEMI() {
                   <label className="col-6 col-form-label">Auto Price</label>
                   <div className="col-6">
                     <input className="form-control" type="number" step="0.01" value={vehiclePrice} onChange={e => setVehiclePrice(e.target.value)} placeholder="e.g. 30000" />
-                  </div>
-                </div>
-
-                <div className="mb-2 row">
-                  <label className="col-6 col-form-label">Target Monthly Payment</label>
-                  <div className="col-6">
-                    <input className="form-control" type="number" step="0.01" value={monthlyPay} onChange={e => { setMonthlyPay(e.target.value); derivePriceFromMonthly(e.target.value); }} placeholder="e.g. 400" />
                   </div>
                 </div>
 
