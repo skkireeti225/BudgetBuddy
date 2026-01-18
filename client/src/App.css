@@ -40,7 +40,7 @@ body {
   margin: 0 auto;
 }
 .brand {
-  color: #9a9a9a;
+  color: #ffffff;
   font-weight: 600;
   font-size: 1rem; /* smaller brand */
   padding: 0.35rem 0.6rem;
@@ -112,4 +112,3 @@ body {
 .site-footer .icon.linkedin { background: #0077b5 }
 .site-footer .icon.mail { background: #e64b4b }
 .site-footer .icon svg { display: block }
-}
